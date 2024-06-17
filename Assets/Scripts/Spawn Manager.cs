@@ -23,6 +23,11 @@ public class SpawnManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(playerControllerScript.isGameOver == true)
+        {
+            StopAllCoroutines();
+            return;
+        }
         enemyCount = FindObjectsOfType<Enemy>().Length;
         if (enemyCount == 0)
         {

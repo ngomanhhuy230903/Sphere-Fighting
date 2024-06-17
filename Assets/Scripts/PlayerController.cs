@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -19,6 +22,9 @@ public class PlayerController : MonoBehaviour
     public float smashSpeed;
     public float explosionForce;
     public float explosionRadius;
+    public TextMeshProUGUI gameOverText;
+    public Button replayButton;
+    public AudioSource playerAudio;
     bool smashing = false;
     float floorY;
     // Start is called before the first frame update
@@ -36,7 +42,7 @@ public class PlayerController : MonoBehaviour
         powerUpIndicator.transform.position = transform.position - new Vector3(0, 0.54f, 0);
         if (transform.position.y < -10)
         {
-            isGameOver = true;
+            GameOver();
         }
         if (currentPowerUp == PowerUpType.Rockets && Input.GetKeyDown(KeyCode.F))
         {
@@ -121,5 +127,15 @@ public class PlayerController : MonoBehaviour
         //We are no longer smashing, so set the boolean to false
         smashing = false;
     }
-
+    private void GameOver()
+    {
+        gameOverText.gameObject.SetActive(true);
+        replayButton.gameObject.SetActive(true);
+        playerAudio.Stop();
+        isGameOver = true;
+    }
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
 }
